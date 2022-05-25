@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import adminRoutes from "./routes/admin.js";
 import serviceProviderRoutes from "./routes/serviceProvider.js";
 import customerRoutes from "./routes/customer.js";
+import rootRoutes from "./routes/root.js";
 
 const app = express();
 
@@ -19,10 +20,7 @@ dotenv.config();
 app.use("/admin", adminRoutes);
 app.use("/serviceProvider", serviceProviderRoutes);
 app.use("/customer", customerRoutes);
-
-app.get('/', (req, res) => {
-  res.send("Welcome to daily helpers API!!");
-})
+app.use("/", rootRoutes);
 
 const PORT = process.env.PORT;
 const CONNECTION_URL = process.env.CONNECTION_URL;
