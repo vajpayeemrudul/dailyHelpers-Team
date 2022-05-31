@@ -7,10 +7,12 @@ const def = {
 
 const adminSchema = mongoose.Schema({
   name: def,
+  location: def,
   credential: {
     username: def,
     password: def
-  }
+  },
+  profileImg: def
 });
 
 const admin = mongoose.model('adminDB', adminSchema);
