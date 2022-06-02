@@ -24,18 +24,15 @@ export const getServiceProviderDataWithId = async (req, res) => {
 }
 
 export const addServiceProvider = async (req, res) => {
-  const { name, service, charge, username, password, location, profileImg } = req.body;
+  const { service, charge, id } = req.body;
 
   try {
+    console.log(id);
     const serviceProvider = new ServiceProvider();
-    serviceProvider.name = name;
     serviceProvider.service = service;
     serviceProvider.charge = charge;
-    serviceProvider.credential.username = username;
-    serviceProvider.credential.password = password;
-    serviceProvider.location = location;
-    serviceProvider.profileImg = profileImg;
-
+    serviceProvider.customerId = id;
+    
     await serviceProvider.save();
     console.log("Data saved !!");
     res.status(200).json({ message: "Data saved !!" });

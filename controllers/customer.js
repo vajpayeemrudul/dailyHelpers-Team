@@ -34,11 +34,9 @@ export const addCustomer = async (req, res) => {
     customer.credential.password = password;
     customer.location = location;
     customer.profileImg = profileImg;
-    customer.history = [];
-
     await customer.save();
     console.log("Data saved !!");
-    res.status(200).json({ message: "Data saved !!" });
+    res.status(200).json({ message: "Data saved !!", id: customer._id.valueOf() });
   }
   catch (err) {
     console.log(err.message);

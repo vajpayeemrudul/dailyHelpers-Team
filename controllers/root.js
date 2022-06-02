@@ -45,10 +45,12 @@ export const authenticateUser = async (req, res) => {
 
 export const createAccount = async (req, res) => {
   try {
-
+    
+    res.status(200).json({ message: 'Ok'});
   }
   catch (err) {
-    
+    console.log(err.message);
+    res.status(404).json({ message: err.message });
   }
 }
 

@@ -12,12 +12,12 @@ const customerSchema = mongoose.Schema({
     username: def,
     password: def
   },
+  profileImg: String,
   currentService: {
     service: {type: String, default: ""},
     date: {type: Date, default: new Date()}
   },
-  history: [def],
-  profileImg: def,
+  history: {type: [String], default: []},
   charge: {type: Number, default: 0}
 });
 
