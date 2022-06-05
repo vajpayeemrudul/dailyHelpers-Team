@@ -5,7 +5,8 @@ import {
   deleteCustomer,
   getCustomerDataWithId,
   bookService,
-  removeCurrentService
+  removeCurrentService,
+  updateCustomerDetails
 } from '../controllers/customer.js';
 
 const customerRouter = express.Router();
@@ -14,7 +15,8 @@ customerRouter.get('/', getCustomerData);
 customerRouter.post('/', addCustomer);
 customerRouter.get('/:id', getCustomerDataWithId);
 customerRouter.delete('/:id', deleteCustomer);
+customerRouter.put('/:id', updateCustomerDetails);
 customerRouter.post('/:cid/:sid', bookService);
-customerRouter.post('/:id', removeCurrentService);
+
 
 export default customerRouter;

@@ -100,3 +100,33 @@ export const removeCurrentService = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 }
+
+export const updateCustomerDetails = async (req, res) => {
+  const { name, location, username, password, profileImg } = req.body;
+
+  try {
+    await Customer.findByIdAndUpdate(req.params.id, {
+      name: name,
+      credential: {
+        username: username,
+        password: password
+      },
+      location: location,
+      profileImg: profileImg
+    }, (err, docs) => {
+      console.log((err? err: docs));
+    });
+    
+    const data = await ServiceProvider.find({ customerId: req.params.id });
+    if(data.length > 0) {
+      
+    }
+
+    console.log("Data updated !!");
+    res.status(200).json({ message: "Data updated !!" });
+  }
+  catch (err) {
+    console.log(err.message);
+    res.status(404).json({ message: err.message });
+  }
+}
