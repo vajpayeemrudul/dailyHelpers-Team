@@ -102,17 +102,15 @@ export const removeCurrentService = async (req, res) => {
 }
 
 export const updateCustomerDetails = async (req, res) => {
-  const { name, location, username, password, profileImg } = req.body;
-
   try {
     await Customer.findByIdAndUpdate(req.params.id, {
-      name: name,
+      name: req.body.name,
       credential: {
-        username: username,
-        password: password
+        username: req.body.credential.username,
+        password: req.body.credential.password
       },
-      location: location,
-      profileImg: profileImg
+      location: req.body.location,
+      profileImg: req.body.profileImg
     }, (err, docs) => {
       console.log((err? err: docs));
     });
@@ -121,8 +119,7 @@ export const updateCustomerDetails = async (req, res) => {
     if(data.length > 0) {
       
     }
-
-    console.log("Data updated !!");
+ console.log("Data updated !!");
     res.status(200).json({ message: "Data updated !!" });
   }
   catch (err) {
