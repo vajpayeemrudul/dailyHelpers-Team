@@ -24,12 +24,14 @@ export const getAdminDataWithId = async (req, res) => {
 }
 
 export const addAdmin = async (req, res) => {
-  const {name, username, password} = req.body;
+  const { name, location, username, password, profileImg} = req.body;
   try {
     let admin = new Admin();
     admin.name = name;
+    admin.location=location;
     admin.credential.username = username;
     admin.credential.password = password;
+    admin.profileImg=profileImg;
     await admin.save();
     console.log("Data saved !!");
     res.status(200).json({ message: "Data Saved !!" });
