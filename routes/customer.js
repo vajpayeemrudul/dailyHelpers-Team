@@ -18,5 +18,4 @@ customerRouter.delete('/:id', deleteCustomer);
 customerRouter.put('/:id', updateCustomerDetails);
 customerRouter.post('/:cid/:sid', bookService);
 
-
 export default customerRouter;

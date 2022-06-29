@@ -16,6 +16,7 @@ export const getCustomerDataWithId = async (req, res) => {
   const id = req.params.id;
   try {
     const data = await Customer.findById(id);
+
     res.status(200).send(JSON.stringify(data));
   }
   catch (err) {
