@@ -1,24 +1,27 @@
 import Customer from "../models/customer.js";
+import ServiceProvider from "../models/serviceProvider.js";
 
 export const authenticateUser = async (req, res) => {
   let credentials = {
-    username: req.params.username,
-    password: req.params.password
+    username: req.body.username,
+    password: req.body.password
   }
 
   let customerData = await Customer.find({credential: credentials});
   if(customerData.length!=0) {
+    let serviceProviderData = await ServiceProvider.find({id: customerData[0].id});
     res.status(200).json({
       message: 'Ok',
-      id: customerData[0].id,
-      position: 'Customer'
+      position: (serviceProviderData.length ? "ServiceProvider": "Customer"),
+      customerData: customerData[0],
+      serviceProviderData: serviceProviderData[0] || ""
     })
-    return;
   }
-
-  res.status(200).json({
-    message: 'Incorrect UserId or Password'
-  })
+  else {
+    res.status(200).json({
+      message: 'Incorrect UserId or Password'
+    })
+  }
 }
 
 export const Welcome = (req, res) => {

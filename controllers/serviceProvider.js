@@ -3,7 +3,7 @@ import ServiceProvider from '../models/serviceProvider.js';
 export const getServiceProviderData = async (req, res) => {
   try {
     const data = await ServiceProvider.find();
-    res.status(200).send(JSON.stringify(data));
+    res.status(200).json(JSON.stringify(data));
   }
   catch (err) {
     console.log(err.message);
@@ -15,7 +15,7 @@ export const getServiceProviderDataWithId = async (req, res) => {
   const id = req.params.id;
   try {
     const data = await ServiceProvider.findById(id);
-    res.status(200).send(JSON.stringify(data));
+    res.status(200).json(JSON.stringify(data));
   }
   catch (err) {
     console.log(err.message);
