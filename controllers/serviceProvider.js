@@ -1,8 +1,20 @@
 import ServiceProvider from '../models/serviceProvider.js';
+import Customer from '../models/customer.js';
 
 export const getServiceProviderData = async (req, res) => {
   try {
-    const data = await ServiceProvider.find();
+    const serviceProviderData = await ServiceProvider.find();
+    let data = [];
+    for(let i=0; i<serviceProviderData.length; i++) {
+      let curData = serviceProviderData[i];
+      let customerData = await Customer.findById(curData.customerId);
+      data.push({
+        ...curData,
+        location: customerData.location,
+        email: customerData.email,
+        name: customerData.name
+      })
+    }
     res.status(200).json(JSON.stringify(data));
   }
   catch (err) {
@@ -23,19 +35,11 @@ export const getServiceProviderDataWithId = async (req, res) => {
   }
 }
 
-export const addServiceProvider = async (req, res) => {
-  const { service, charge, id } = req.body;
-
+export const getServiceProviderDataWithService = async (req, res) => {
+  let service = req.body.service;
   try {
-    console.log(id);
-    const serviceProvider = new ServiceProvider();
-    serviceProvider.service = service;
-    serviceProvider.charge = charge;
-    serviceProvider.customerId = id;
-    
-    await serviceProvider.save();
-    console.log("Data saved !!");
-    res.status(200).json({ message: "Data saved !!" });
+    const data = await Customer.find({ service: service });
+    res.status(200).json(JSON.stringify(data));
   }
   catch (err) {
     console.log(err.message);

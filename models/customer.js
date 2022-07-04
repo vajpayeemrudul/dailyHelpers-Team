@@ -12,6 +12,7 @@ const customerSchema = mongoose.Schema({
     username: def,
     password: def
   },
+  email: def,
   profileImg: String,
   currentService: {
     service: {type: String, default: ""},
