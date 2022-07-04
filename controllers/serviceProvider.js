@@ -15,7 +15,7 @@ export const getServiceProviderData = async (req, res) => {
         name: customerData.name
       })
     }
-    res.status(200).json(JSON.stringify(data));
+    res.status(200).json(data);
   }
   catch (err) {
     console.log(err.message);
