@@ -26,7 +26,7 @@ export const getCustomerDataWithId = async (req, res) => {
 }
 
 export const addCustomer = async (req, res) => {
-  const { name, location, username, password, profileImg } = req.body;
+  const { name, location, username, password, profileImg, email, service, charge } = req.body;
 
   try {
     const customer = new Customer();
@@ -34,9 +34,19 @@ export const addCustomer = async (req, res) => {
     customer.credential.username = username;
     customer.credential.password = password;
     customer.location = location;
+    customer.email = email;
     customer.profileImg = profileImg;
     await customer.save();
-    console.log("Data saved !!");
+    console.log("Customer data saved !!");
+
+    if(service !== '') {
+      const serviceProvider = new ServiceProvider();
+      serviceProvider.customerId = customer._id.valueOf();
+      serviceProvider.service = service;
+      serviceProvider.charge = charge;
+      await serviceProvider.save();
+      console.log("Service Provider data saved !!");
+    }
     res.status(200).json({ message: "Data saved !!", id: customer._id.valueOf() });
   }
   catch (err) {

@@ -5,6 +5,5 @@ const app = express.Router();
 
 app.get('/', Welcome)
 app.post('/', authenticateUser);
-// app.post('/create', createAccount);
 
 export default app;
