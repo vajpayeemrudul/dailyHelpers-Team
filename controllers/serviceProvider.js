@@ -1,8 +1,21 @@
 import ServiceProvider from '../models/serviceProvider.js';
+import customer from '../models/customer.js';
 
 export const getServiceProviderData = async (req, res) => {
   try {
-    const data = await ServiceProvider.find();
+    const serviceProviderData = await ServiceProvider.find();
+    let data =[];
+    for(let i=0;i<serviceProviderData.length;i++)
+    {
+        let curData = serviceProviderData[i];
+        let customerData = await customer.findById(curData.customerId);
+        data.push({
+          ...curData,
+          location: customerData.location,
+          email: customerData.email,
+          name: customerData.name
+        })
+    }
     res.status(200).send(JSON.stringify(data));
   }
   catch (err) {

@@ -2,10 +2,10 @@ import Customer from "../models/customer.js";
 
 export const authenticateUser = async (req, res) => {
   let credentials = {
-    username: req.params.username,
-    password: req.params.password
+    username: req.body.username,
+    password: req.body.password
   }
-
+   console.log(credentials);
   let customerData = await Customer.find({credential: credentials});
   if(customerData.length!=0) {
     res.status(200).json({
