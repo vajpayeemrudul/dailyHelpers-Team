@@ -8,8 +8,9 @@ export const authenticateUser = async (req, res) => {
   }
 
   let customerData = await Customer.find({credential: credentials});
+
   if(customerData.length!=0) {
-    let serviceProviderData = await ServiceProvider.find({id: customerData[0].id});
+    let serviceProviderData = await ServiceProvider.find({customerId: customerData[0].id.valueOf()});
     res.status(200).json({
       message: 'Ok',
       position: (serviceProviderData.length ? "ServiceProvider": "Customer"),

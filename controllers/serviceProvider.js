@@ -9,7 +9,11 @@ export const getServiceProviderData = async (req, res) => {
       let curData = serviceProviderData[i];
       let customerData = await Customer.findById(curData.customerId);
       data.push({
-        ...curData,
+        status: curData.status,
+        approved: curData.approved,
+        charge: curData.charge,
+        customerId: curData.customerId,
+        service: curData.service,
         location: customerData.location,
         email: customerData.email,
         name: customerData.name
@@ -27,7 +31,7 @@ export const getServiceProviderDataWithId = async (req, res) => {
   const id = req.params.id;
   try {
     const data = await ServiceProvider.findById(id);
-    res.status(200).json(JSON.stringify(data));
+    res.status(200).json(data);
   }
   catch (err) {
     console.log(err.message);
@@ -39,7 +43,7 @@ export const getServiceProviderDataWithService = async (req, res) => {
   let service = req.body.service;
   try {
     const data = await Customer.find({ service: service });
-    res.status(200).json(JSON.stringify(data));
+    res.status(200).json(data);
   }
   catch (err) {
     console.log(err.message);
