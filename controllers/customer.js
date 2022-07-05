@@ -70,20 +70,15 @@ export const deleteCustomer = async (req, res) => {
 
 export const bookService = async (req, res) => {
   const customerId = req.params.cid, serviceProviderId = req.params.sid;
-  const days = 0, charge = 0;
   try {
     const serviceProvider = await ServiceProvider.find({ customerId: serviceProviderId });
     const customer = await Customer.findById(customerId);
     console.log(serviceProvider[0]);
     console.log(customer);
+
     if(serviceProvider[0].status === 'available' && customer.currentService.service === '') {
       serviceProvider[0].status = "busy";
       customer.currentService.service = serviceProviderId;
-      customer.history.push({
-        serviceProviderId: serviceProviderId,
-        days: days,
-        charge: charge
-      })
       await ServiceProvider.findByIdAndUpdate(serviceProvider[0]._id, { ...serviceProvider[0] });
       await Customer.findByIdAndUpdate(customer._id, { ...customer });
       console.log("Booked");
