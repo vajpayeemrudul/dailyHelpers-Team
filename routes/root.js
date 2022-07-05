@@ -3,8 +3,8 @@ import { authenticateUser, Welcome } from '../controllers/root.js';
 
 const app = express.Router();
 
-app.get('/', Welcome)
-app.post('/', authenticateUser);
+app.get('/:username/:password', authenticateUser);
 // app.post('/create', createAccount);
+app.get('/', Welcome)
 
 export default app;

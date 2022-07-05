@@ -16,7 +16,6 @@ export const getCustomerDataWithId = async (req, res) => {
   const id = req.params.id;
   try {
     const data = await Customer.findById(id);
-
     res.status(200).send(JSON.stringify(data));
   }
   catch (err) {
@@ -103,15 +102,17 @@ export const removeCurrentService = async (req, res) => {
 }
 
 export const updateCustomerDetails = async (req, res) => {
+  const { name, location, username, password, profileImg } = req.body;
+
   try {
     await Customer.findByIdAndUpdate(req.params.id, {
-      name: req.body.name,
+      name: name,
       credential: {
-        username: req.body.credential.username,
-        password: req.body.credential.password
+        username: username,
+        password: password
       },
-      location: req.body.location,
-      profileImg: req.body.profileImg
+      location: location,
+      profileImg: profileImg
     }, (err, docs) => {
       console.log((err? err: docs));
     });
