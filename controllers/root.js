@@ -1,6 +1,7 @@
 import Admin from "../models/admin.js";
 import ServiceProvider from "../models/serviceProvider.js";
 import Customer from "../models/customer.js";
+import ServiceProvider from "../models/serviceProvider.js";
 
 export const authenticateUser = async (req, res) => {
   let credentials = {
@@ -14,18 +15,21 @@ export const authenticateUser = async (req, res) => {
 
 >>>>>>> parent of d78f526... Authenticate User
   let customerData = await Customer.find({credential: credentials});
+
   if(customerData.length!=0) {
+    let serviceProviderData = await ServiceProvider.find({customerId: customerData[0].id.valueOf()});
     res.status(200).json({
       message: 'Ok',
-      id: customerData[0].id,
-      position: 'Customer'
+      position: (serviceProviderData.length ? "ServiceProvider": "Customer"),
+      customerData: customerData[0],
+      serviceProviderData: serviceProviderData[0] || ""
     })
-    return;
   }
-
-  res.status(200).json({
-    message: 'Incorrect UserId or Password'
-  })
+  else {
+    res.status(200).json({
+      message: 'Incorrect UserId or Password'
+    })
+  }
 }
 
 // export const createAccount = async (req, res) => {

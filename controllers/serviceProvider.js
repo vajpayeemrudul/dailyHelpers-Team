@@ -28,7 +28,7 @@ export const getServiceProviderDataWithId = async (req, res) => {
   const id = req.params.id;
   try {
     const data = await ServiceProvider.findById(id);
-    res.status(200).send(JSON.stringify(data));
+    res.status(200).json(data);
   }
   catch (err) {
     console.log(err.message);
@@ -36,19 +36,11 @@ export const getServiceProviderDataWithId = async (req, res) => {
   }
 }
 
-export const addServiceProvider = async (req, res) => {
-  const { service, charge, id } = req.body;
-
+export const getServiceProviderDataWithService = async (req, res) => {
+  let service = req.body.service;
   try {
-    console.log(id);
-    const serviceProvider = new ServiceProvider();
-    serviceProvider.service = service;
-    serviceProvider.charge = charge;
-    serviceProvider.customerId = id;
-    
-    await serviceProvider.save();
-    console.log("Data saved !!");
-    res.status(200).json({ message: "Data saved !!" });
+    const data = await Customer.find({ service: service });
+    res.status(200).json(data);
   }
   catch (err) {
     console.log(err.message);

@@ -12,13 +12,13 @@ const customerSchema = mongoose.Schema({
     username: def,
     password: def
   },
+  email: def,
   profileImg: String,
   currentService: {
     service: {type: String, default: ""},
     date: {type: Date, default: new Date()}
   },
-  history: {type: [String], default: []},
-  charge: {type: Number, default: 0}
+  history: {type: [{ serviceProviderId: String, days: Number, charge: Number }], default: []}
 });
 
 const customer = mongoose.model('customerDB', customerSchema);

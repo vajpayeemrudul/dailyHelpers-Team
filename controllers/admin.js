@@ -3,7 +3,7 @@ import Admin from "../models/admin.js";
 export const getAdminData = async (req, res) => {
   try {
     const data = await Admin.find();
-    res.status(200).send(JSON.stringify(data));
+    res.status(200).json(JSON.stringify(data));
   }
   catch (err) {
     res.status(404).json({message: err.message});
@@ -15,7 +15,7 @@ export const getAdminDataWithId = async (req, res) => {
   const id = req.params.id;
   try {
     const data = await Admin.findById(id);
-    res.status(200).send(JSON.stringify(data));
+    res.status(200).json(JSON.stringify(data));
   }
   catch (err) {
     res.status(404).json({message: err.message});
