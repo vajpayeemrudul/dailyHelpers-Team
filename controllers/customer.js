@@ -4,7 +4,7 @@ import ServiceProvider from '../models/serviceProvider.js';
 export const getCustomerData = async (req, res) => {
   try {
     const data = await Customer.find();
-    res.status(200).json(JSON.stringify(data));
+    res.status(200).json(data);
   }
   catch (err) {
     console.log(err.message);
@@ -17,7 +17,7 @@ export const getCustomerDataWithId = async (req, res) => {
   try {
     const data = await Customer.findById(id);
 
-    res.status(200).json(JSON.stringify(data));
+    res.status(200).json(data);
   }
   catch (err) {
     console.log(err.message);
@@ -71,14 +71,16 @@ export const deleteCustomer = async (req, res) => {
 export const bookService = async (req, res) => {
   const customerId = req.params.cid, serviceProviderId = req.params.sid;
   try {
-    const serviceProvider = await ServiceProvider.findById(serviceProviderId);
+    const serviceProvider = await ServiceProvider.find({ customerId: serviceProviderId });
     const customer = await Customer.findById(customerId);
+    console.log(serviceProvider[0]);
+    console.log(customer);
 
-    if(serviceProvider.status === "available" && customer.currentService === null) {
-      serviceProvider.status = "busy";
-      customer.currentService = serviceProvider.id;
-      await serviceProvider.save();
-      await customer.save();
+    if(serviceProvider[0].status === 'available' && customer.currentService.service === '') {
+      serviceProvider[0].status = "busy";
+      customer.currentService.service = serviceProviderId;
+      await ServiceProvider.findByIdAndUpdate(serviceProvider[0]._id, { ...serviceProvider[0] });
+      await Customer.findByIdAndUpdate(customer._id, { ...customer });
       console.log("Booked");
       res.status(200).json({ message: "Booked" });
     }
@@ -97,7 +99,7 @@ export const removeCurrentService = async (req, res) => {
   const id = req.params.id;
   try {
     const customer = await Customer.findById(id);
-    const serviceProvider = await ServiceProvider.findById(customer.currentService.service);
+    const serviceProvider = await ServiceProvider.findById(customer.id);
     serviceProvider.status = "available";
     let days = Math.ceil(Math.abs((new Date()) - customer.currentService.date) / (1000 * 60 * 60 * 24));
     customer.charge = customer.charge + days * serviceProvider.charge;
